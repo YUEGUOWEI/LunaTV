@@ -23,6 +23,7 @@ import { DownloadProvider } from '../contexts/DownloadContext';
 import { GlobalCacheProvider } from '../contexts/GlobalCacheContext';
 import QueryProvider from '../components/QueryProvider';
 import { CinematicLoadingFallback } from '../components/CinematicLoadingFallback';
+import { AuthGate } from '../components/AuthGate';
 
 // 懒加载非关键 UI 组件，减少首屏 JS 体积（代码分割）
 // 未设置 ssr: false，保持服务端渲染兼容性
@@ -181,6 +182,8 @@ export default async function RootLayout({
         translate='no'
         className={`${inter.className} min-h-screen bg-white text-gray-900 dark:bg-black dark:text-gray-200`}
       >
+        {/* 全站登录门：未登录时跳到登录页（登录页、静态资源除外） */}
+        <AuthGate />
         {/*
           iOS 沉浸式状态栏（black-translucent）下，状态栏图标固定为白色，
           不随亮/暗主题切换。用一条固定深色条带盖住状态栏区域，
